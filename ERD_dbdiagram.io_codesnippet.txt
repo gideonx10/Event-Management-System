@@ -1,0 +1,40 @@
+Table Users {
+  user_id INT [pk]
+  name VARCHAR
+  email VARCHAR
+  password VARCHAR
+  role ENUM('attendee', 'organizer', 'admin')
+}
+
+Table Events {
+  event_id INT [pk]
+  title VARCHAR
+  description TEXT
+  date DATE
+  time TIME
+  venue_id INT [ref: > Venues.venue_id]
+  organizer_id INT [ref: > Users.user_id]
+}
+
+Table Bookings {
+  booking_id INT [pk]
+  user_id INT [ref: > Users.user_id]
+  event_id INT [ref: > Events.event_id]
+  status ENUM('confirmed', 'cancelled')
+  booking_date DATETIME
+}
+
+Table Payments {
+  payment_id INT [pk]
+  booking_id INT [ref: > Bookings.booking_id]
+  amount DECIMAL
+  status ENUM('paid', 'pending', 'failed')
+  payment_date DATETIME
+}
+
+Table Venues {
+  venue_id INT [pk]
+  name VARCHAR
+  location TEXT
+  capacity INT
+}
